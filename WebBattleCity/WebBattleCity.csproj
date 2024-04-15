@@ -8,4 +8,14 @@
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
+  <ItemGroup>
+    <None Remove="GameLogic\" />
+    <None Remove="GameLogic\GameLogicEnums\" />
+    <None Remove="GameLogic\GameObjects\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="GameLogic\" />
+    <Folder Include="GameLogic\GameLogicEnums\" />
+    <Folder Include="GameLogic\GameObjects\" />
+  </ItemGroup>
 </Project>
