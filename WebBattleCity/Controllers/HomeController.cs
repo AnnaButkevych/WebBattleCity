@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting.Internal;
 using WebBattleCity.Models;
 
 namespace WebBattleCity.Controllers;
@@ -15,7 +16,12 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        
+        GameBoardViewModel gameBoardViewModel = new GameBoardViewModel {Matrix = new string[,] {
+        {"img.jpg"}
+    }
+        };
+        return View(gameBoardViewModel);
     }
 
     public IActionResult Privacy()
