@@ -26,6 +26,9 @@
     <None Update="Images\img.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="GameLogic\BattleFieldMatrix.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\Images\" />

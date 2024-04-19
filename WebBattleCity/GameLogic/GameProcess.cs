@@ -1,65 +1,67 @@
 ﻿using System;
+using WebBattleCity.GameLogic.GameLogicEnums;
 using WebBattleCity.GameLogic.GameObjects;
 namespace WebBattleCity.GameLogic;
 
 public class GameProcess {
-public void Process(){
-        BattleField battleField = new BattleField();
-        battleField.DrawFrame();
 
+    MyTank Leopard;
+    List<EnemyTank> EnemyTanks;
+    BattleField BattleField;
 
-        List<EnemyTank> enemyTanks = battleField.enemyTanksProperty;
+    public GameProcess()
+    {
+        BattleField = new BattleField();
+    }
 
-        MyTank leopard = battleField.MyTankProperty;
+    public GameObject[,] Process(string input)
+    {
+        EnemyTanks = BattleField.enemyTanksProperty;
+        Leopard = BattleField.MyTankProperty;
         Projectile myTankProjectile;
 
-        while (true)
-        {
-            if (leopard.IsDestroyed)
-            {
-                Console.WriteLine("!GAME OVER!");
-                break;
-            }
-            if (enemyTanks.All(x => x.IsDestroyed))
-            {
-                Console.WriteLine("!WINNER!");
-                break;
-            }
-            ConsoleKey currentInput = Console.ReadKey(true).Key;
-            Console.Clear();
+        ControlsKeysEnum currentInput = (ControlsKeysEnum)Enum.Parse(typeof(ControlsKeysEnum), input);
             List<Projectile> projectiles = new List<Projectile>();
             switch (currentInput)
             {
-                case ConsoleKey.UpArrow:
-                    leopard.TurnAndMove(GameLogicEnums.Vector.Up, battleField);
+                case ControlsKeysEnum.UpArrow:
+                    Leopard.TurnAndMove(Vector.Up, BattleField);
                     break;
-                case ConsoleKey.DownArrow:
-                    leopard.TurnAndMove(GameLogicEnums.Vector.Down, battleField);
+                case ControlsKeysEnum.DownArrow:
+                    Leopard.TurnAndMove(Vector.Down, BattleField);
                     break;
-                case ConsoleKey.LeftArrow:
-                    leopard.TurnAndMove(GameLogicEnums.Vector.Left, battleField);
+                case ControlsKeysEnum.LeftArrow:
+                    Leopard.TurnAndMove(Vector.Left, BattleField);
                     break;
-                case ConsoleKey.RightArrow:
-                    leopard.TurnAndMove(GameLogicEnums.Vector.Right, battleField);
+                case ControlsKeysEnum.RightArrow:
+                    Leopard.TurnAndMove(Vector.Right, BattleField);
                     break;
-                case ConsoleKey.Spacebar:
-                    projectiles.Add(leopard.Fire());
+                case ControlsKeysEnum.Spacebar:
+                    projectiles.Add(Leopard.Fire());
                     break;
             }
-            foreach (var enemyTank in enemyTanks)
+            foreach (var enemyTank in EnemyTanks)
             {
-                if (enemyTank.IsOnTheSameLine(leopard))
+                if (enemyTank.IsOnTheSameLine(Leopard))
                 {
-                    GameLogicEnums.Vector vectorToShoot = enemyTank.FindVectorToShoot(leopard);
+                    Vector vectorToShoot = enemyTank.FindVectorToShoot(Leopard);
                     projectiles.Add(enemyTank.FireToVector(vectorToShoot));
                 }
-                enemyTank.MoveEnemyTank(battleField);
+                enemyTank.MoveEnemyTank(BattleField);
             }
 
-            battleField.UpdateField(projectiles);
-            battleField.DrawFrame();
-        }
+            BattleField.UpdateField(projectiles);
 
+    return BattleField.State;
+    }
+
+    public bool IsLoser()
+    {
+        return Leopard.IsDestroyed;
+    }
+    public bool IsWinner()
+    {
+        return EnemyTanks.All(x => x.IsDestroyed);
     }
 }
 

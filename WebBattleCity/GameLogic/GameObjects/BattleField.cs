@@ -138,7 +138,7 @@ public class BattleField
 
     private void InitialisePositions()
     {
-        string fileState = FileReader.ReadFile("BattleFieldMatrix.txt");
+        string fileState = FileReader.ReadFile("GameLogic/BattleFieldMatrix.txt");
         for (int i = 0; i < fileState.Length; i = i + Indentation)
         {
             int x = (i / Indentation) % 10;
@@ -170,30 +170,6 @@ public class BattleField
                     break;
             }
 
-        }
-    }
-
-    public void DrawFrame()
-    {
-        for (int i = 0; i < Length * 2; i++)
-        {
-            Console.Write('-');
-        }
-        Console.WriteLine();
-
-        for (int i = 0; i < Length; i++)
-        {
-            for (int j = 0; j < Height; j++)
-            {
-                Console.Write(State[j, i].Icon);
-                Console.Write(' ');
-            }
-            Console.WriteLine('|');
-        }
-
-        for (int i = 0; i < Length * 2; i++)
-        {
-            Console.Write('-');
         }
     }
 }
