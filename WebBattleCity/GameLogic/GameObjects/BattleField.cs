@@ -91,7 +91,7 @@ public class BattleField
                     }
                     if (State[mytank.X, mytank.Y] is not EmptyPosition && !(State[mytank.X, mytank.Y] is MyTank))
                     {
-                        switch ((State[j, i] as MyTank).Vector)
+                        switch ((State[j, i] as MyTank).CurrentVector)
                         {
                             case Vector.Left:
                                 State[j, i].X++;

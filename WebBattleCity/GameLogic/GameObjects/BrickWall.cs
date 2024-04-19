@@ -18,4 +18,9 @@ public class BrickWall : WallsBase
         }
         return IsDestroyed;
     }
+
+    public override string GetIconName()
+    {
+        return "brickWall.jpg";
+    }
 }

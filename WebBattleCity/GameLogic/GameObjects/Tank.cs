@@ -5,29 +5,28 @@ namespace WebBattleCity.GameLogic.GameObjects;
 
 public abstract class Tank : GameObject
 {
-    public Vector Vector = Vector.Up;
+    public Vector CurrentVector = Vector.Up;
 
     public Tank(int x, int y) : base(x, y)
     {
         IsDestroyed = false;
         Icon = 'ᐃ';
-
     }
 
     public Projectile Fire()
     {
         if (!IsDestroyed)
         {
-            switch (Vector)
+            switch (CurrentVector)
             {
                 case Vector.Left:
-                    return new Projectile(X - 1, Y, Vector);
+                    return new Projectile(X - 1, Y, CurrentVector);
                 case Vector.Right:
-                    return new Projectile(X + 1, Y, Vector);
+                    return new Projectile(X + 1, Y, CurrentVector);
                 case Vector.Up:
-                    return new Projectile(X, Y - 1, Vector);
+                    return new Projectile(X, Y - 1, CurrentVector);
                 case Vector.Down:
-                    return new Projectile(X, Y + 1, Vector);
+                    return new Projectile(X, Y + 1, CurrentVector);
                 default: throw new Exception();
             }
         }
@@ -36,14 +35,14 @@ public abstract class Tank : GameObject
 
     public Projectile FireToVector(Vector newVector)
     {
-        Vector = newVector;
+        CurrentVector = newVector;
         return Fire();
     }
 
     //todo:check for not going out of the battleField
     public void TurnAndMove(Vector newVector, BattleField battleField)
     {
-        Vector = newVector;
+        CurrentVector = newVector;
         if (newVector == Vector.Up)
         {
             Icon = 'ᐃ';

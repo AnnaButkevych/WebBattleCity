@@ -9,7 +9,7 @@ public class EnemyTank : Tank
     public EnemyTank(int x, int y) : base(x, y)
     {
         Icon = 'ꤾ';
-        Vector = Vector.Down;
+        CurrentVector = Vector.Down;
     }
 
     public override bool TryDestroy()
@@ -61,4 +61,20 @@ public class EnemyTank : Tank
         return Vector.Up;
     }
 
+    public override string GetIconName()
+    {
+        if (CurrentVector == Vector.Up)
+        {
+            return "enemyTankUp.jpg";
+        }
+        if (CurrentVector == Vector.Down)
+        {
+            return "enemyTankDown.jpg";
+        }
+        if (CurrentVector == Vector.Right)
+        {
+            return "enemyTankRight.jpg";
+        }
+        return "enemyTankLeft.jpg";
+    }
 }

@@ -22,4 +22,8 @@ public class GameObject
         return IsDestroyed;
     }
 
+    public virtual string GetIconName()
+    {
+        return "";
+    }
 }

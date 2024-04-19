@@ -12,13 +12,12 @@
     <None Remove="GameLogic\" />
     <None Remove="GameLogic\GameLogicEnums\" />
     <None Remove="GameLogic\GameObjects\" />
-    <None Remove="Images\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GameLogic\" />
     <Folder Include="GameLogic\GameLogicEnums\" />
     <Folder Include="GameLogic\GameObjects\" />
-    <Folder Include="Images\" />
+    <Folder Include="wwwroot\Images\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Images\img.png">
@@ -27,5 +26,8 @@
     <None Update="Images\img.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\Images\" />
   </ItemGroup>
 </Project>
