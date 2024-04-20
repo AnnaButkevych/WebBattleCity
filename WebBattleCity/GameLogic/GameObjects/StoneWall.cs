@@ -18,4 +18,9 @@ public class StoneWall : WallsBase
         }
         return IsDestroyed;
     }
+
+    public override string GetIconName()
+    {
+        return "stoneWall.jpg";
+    }
 }

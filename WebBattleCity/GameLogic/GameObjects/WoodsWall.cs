@@ -18,4 +18,9 @@ public class WoodsWall : WallsBase
         }
         return IsDestroyed;
     }
+
+    public override string GetIconName()
+    {
+        return "woodsWall.jpg";
+    }
 }

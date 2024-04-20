@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting.Internal;
 using WebBattleCity.GameLogic;
+using WebBattleCity.GameLogic.GameLogicEnums;
 using WebBattleCity.GameLogic.GameObjects;
 using WebBattleCity.Models;
 
@@ -18,9 +19,32 @@ public class HomeController : Controller
         _gameProcess = new GameProcess();
     }
 
-    public IActionResult Index()
+    public IActionResult Index(int keyCode)
     {
-        GameObject[,] gameObjects = _gameProcess.Process("Spacebar");
+        GameObject[,] gameObjects = null;
+
+        switch (keyCode)
+        {
+            case 37: // Left arrow
+                gameObjects = _gameProcess.Process(ControlsKeysEnum.LeftArrow);
+                break;
+            case 38: // Up arrow
+                gameObjects = _gameProcess.Process(ControlsKeysEnum.UpArrow);
+                break;
+            case 39: // Right arrow
+                gameObjects = _gameProcess.Process(ControlsKeysEnum.RightArrow);
+                break;
+            case 40: // Down arrow
+                gameObjects = _gameProcess.Process(ControlsKeysEnum.DownArrow);
+                break;
+            case 8: // Spacebar
+                gameObjects = _gameProcess.Process(ControlsKeysEnum.SpaceBar);
+                break;
+            default:
+                gameObjects = _gameProcess.Process(ControlsKeysEnum.None);
+                break;
+        }
+
         GameBoardViewModel gameBoardViewModel = new GameBoardViewModel();
         int rows = gameObjects.GetLength(0);
         int cols = gameObjects.GetLength(1);
@@ -31,7 +55,7 @@ public class HomeController : Controller
         {
             for (int j = 0; j < cols; j++)
             {
-                gameBoardViewModel.Matrix[i, j] = gameObjects[i, j].GetIconName();
+                gameBoardViewModel.Matrix[j, i] = gameObjects[i, j].GetIconName();
             }
         }
 

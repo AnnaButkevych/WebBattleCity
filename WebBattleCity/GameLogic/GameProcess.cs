@@ -14,15 +14,14 @@ public class GameProcess {
         BattleField = new BattleField();
     }
 
-    public GameObject[,] Process(string input)
+    public GameObject[,] Process(ControlsKeysEnum input)
     {
         EnemyTanks = BattleField.enemyTanksProperty;
         Leopard = BattleField.MyTankProperty;
         Projectile myTankProjectile;
 
-        ControlsKeysEnum currentInput = (ControlsKeysEnum)Enum.Parse(typeof(ControlsKeysEnum), input);
             List<Projectile> projectiles = new List<Projectile>();
-            switch (currentInput)
+            switch (input)
             {
                 case ControlsKeysEnum.UpArrow:
                     Leopard.TurnAndMove(Vector.Up, BattleField);
@@ -36,8 +35,10 @@ public class GameProcess {
                 case ControlsKeysEnum.RightArrow:
                     Leopard.TurnAndMove(Vector.Right, BattleField);
                     break;
-                case ControlsKeysEnum.Spacebar:
+                case ControlsKeysEnum.SpaceBar:
                     projectiles.Add(Leopard.Fire());
+                    break;
+                case ControlsKeysEnum.None:
                     break;
             }
             foreach (var enemyTank in EnemyTanks)

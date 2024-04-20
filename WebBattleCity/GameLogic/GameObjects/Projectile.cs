@@ -30,5 +30,10 @@ public class Projectile : GameObject
                 break;
         }
     }
+
+    public override string GetIconName()
+    {
+        return "projectile.jpg";
+    }
 }
 

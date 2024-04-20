@@ -7,4 +7,9 @@ public class EmptyPosition : GameObject
     {
         Icon = icon;
     }
+
+    public override string GetIconName()
+    {
+        return "emptyPosition.jpg";
+    }
 }

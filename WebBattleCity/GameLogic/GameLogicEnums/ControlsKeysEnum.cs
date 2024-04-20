@@ -7,6 +7,7 @@ public enum ControlsKeysEnum
     DownArrow,
     LeftArrow,
     RightArrow,
-    Spacebar
+    SpaceBar,
+    None
 }	
 
