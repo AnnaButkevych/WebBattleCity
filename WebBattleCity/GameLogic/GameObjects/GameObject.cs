@@ -5,7 +5,6 @@ public class GameObject
 {
     public int X;
     public int Y;
-    public char Icon;
     public bool IsDestroyed;
 
     public GameObject(int x, int y)
@@ -18,7 +17,6 @@ public class GameObject
     public virtual bool TryDestroy()
     {
         IsDestroyed = true;
-        Icon = '྾';
         return IsDestroyed;
     }
 

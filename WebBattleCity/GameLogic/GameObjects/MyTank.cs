@@ -10,7 +10,6 @@ public class MyTank : Tank
     public MyTank(int x, int y) : base(x, y)
     {
         NumberOfShoots = 8;
-        Icon = 'ꥃ';
     }
 
     public override bool TryDestroy()

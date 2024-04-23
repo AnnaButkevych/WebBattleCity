@@ -4,7 +4,7 @@ namespace WebBattleCity.GameLogic.GameObjects;
 public class BrickWall : WallsBase
 {
 
-    public BrickWall(int x, int y) : base(x, y, 2, '#')
+    public BrickWall(int x, int y) : base(x, y, 2)
     {
     }
 
@@ -14,7 +14,6 @@ public class BrickWall : WallsBase
         if (NumberOfShootsToBreak < 1)
         {
             IsDestroyed = true;
-            Icon = ' ';
         }
         return IsDestroyed;
     }

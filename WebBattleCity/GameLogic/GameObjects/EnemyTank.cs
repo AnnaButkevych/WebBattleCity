@@ -8,14 +8,12 @@ public class EnemyTank : Tank
 {
     public EnemyTank(int x, int y) : base(x, y)
     {
-        Icon = 'ꤾ';
         CurrentVector = Vector.Down;
     }
 
     public override bool TryDestroy()
     {
         base.TryDestroy();
-        Icon = '￮';
         return IsDestroyed;
     }
 

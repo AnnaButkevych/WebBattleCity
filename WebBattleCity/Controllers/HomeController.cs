@@ -13,10 +13,10 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     private readonly GameProcess _gameProcess;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, GameProcess gameProcess)
     {
         _logger = logger;
-        _gameProcess = new GameProcess();
+        _gameProcess = gameProcess;
     }
 
     public IActionResult Index(int keyCode)
@@ -37,11 +37,12 @@ public class HomeController : Controller
             case 40: // Down arrow
                 gameObjects = _gameProcess.Process(ControlsKeysEnum.DownArrow);
                 break;
-            case 8: // Spacebar
+            case 32: // Spacebar
                 gameObjects = _gameProcess.Process(ControlsKeysEnum.SpaceBar);
                 break;
             default:
-                gameObjects = _gameProcess.Process(ControlsKeysEnum.None);
+                gameObjects = _gameProcess.GetCurrentState();
+               // gameObjects = _gameProcess.Process(ControlsKeysEnum.None);
                 break;
         }
 

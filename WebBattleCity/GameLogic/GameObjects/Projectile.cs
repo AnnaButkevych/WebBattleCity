@@ -9,7 +9,6 @@ public class Projectile : GameObject
     public Projectile(int x, int y, Vector vector) : base(x, y)
     {
         Vector = vector;
-        Icon = '꠪';
     }
 
     public void Move()

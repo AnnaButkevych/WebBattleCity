@@ -14,6 +14,11 @@ public class GameProcess {
         BattleField = new BattleField();
     }
 
+    public GameObject[,] GetCurrentState()
+    {
+        return BattleField.State;
+    }
+
     public GameObject[,] Process(ControlsKeysEnum input)
     {
         EnemyTanks = BattleField.enemyTanksProperty;
@@ -60,6 +65,7 @@ public class GameProcess {
     {
         return Leopard.IsDestroyed;
     }
+
     public bool IsWinner()
     {
         return EnemyTanks.All(x => x.IsDestroyed);

@@ -10,7 +10,6 @@ public abstract class Tank : GameObject
     public Tank(int x, int y) : base(x, y)
     {
         IsDestroyed = false;
-        Icon = 'ᐃ';
     }
 
     public Projectile Fire()
@@ -45,25 +44,21 @@ public abstract class Tank : GameObject
         CurrentVector = newVector;
         if (newVector == Vector.Up)
         {
-            Icon = 'ᐃ';
             Y--;
         }
 
         if (newVector == Vector.Down)
         {
-            Icon = 'ᐁ';
             Y++;
         }
 
         if (newVector == Vector.Right)
         {
-            Icon = 'ᐅ';
             X++;
         }
 
         if (newVector == Vector.Left)
         {
-            Icon = 'ᐊ';
             X--;
         }
     }

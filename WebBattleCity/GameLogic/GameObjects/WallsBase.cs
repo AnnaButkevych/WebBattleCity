@@ -5,10 +5,9 @@ public class WallsBase : GameObject
 {
     public int NumberOfShootsToBreak;
 
-    public WallsBase(int x, int y, int numberOfShootsToBreak, char icon) : base(x, y)
+    public WallsBase(int x, int y, int numberOfShootsToBreak) : base(x, y)
     {
         NumberOfShootsToBreak = numberOfShootsToBreak;
-        Icon = icon;
         IsDestroyed = false;
     }
 
@@ -18,7 +17,6 @@ public class WallsBase : GameObject
         if (NumberOfShootsToBreak < 1)
         {
             IsDestroyed = true;
-            Icon = ' ';
         }
         return IsDestroyed;
     }

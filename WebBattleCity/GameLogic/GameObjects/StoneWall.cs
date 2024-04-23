@@ -4,7 +4,7 @@ namespace WebBattleCity.GameLogic.GameObjects;
 public class StoneWall : WallsBase
 {
 
-    public StoneWall(int x, int y) : base(x, y, 4, 'ߛ')
+    public StoneWall(int x, int y) : base(x, y, 3)
     {
     }
 
@@ -14,7 +14,6 @@ public class StoneWall : WallsBase
         if (NumberOfShootsToBreak < 1)
         {
             IsDestroyed = true;
-            Icon = ' ';
         }
         return IsDestroyed;
     }

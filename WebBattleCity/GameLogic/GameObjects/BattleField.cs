@@ -30,49 +30,73 @@ public class BattleField
                 if (State[j, i] is Projectile)
                 {
                     Projectile projectile = (Projectile)State[j, i];
-                    if (projectile.X < Length - 1 && projectile.X > 0 + 1 && projectile.Y < Length - 1 && projectile.Y > 0 + 1)
                         switch (projectile.Vector)
                         {
                             case Vector.Left:
+                            if (j > 0)
+                            {
                                 if (State[j - 1, i] is EmptyPosition)
                                 {
                                     State[j - 1, i] = new Projectile(j - 1, i, projectile.Vector);
                                 }
                                 else
                                 {
-                                    State[j - 1, i].TryDestroy();
+                                    if (State[j - 1, i].TryDestroy())
+                                    {
+                                        State[j - 1, i] = new EmptyPosition(j - 1, i);
+                                    }
                                 }
+                            }
                                 break;
                             case Vector.Right:
+                            if (j < Length)
+                            {
                                 if (State[j + 1, i] is EmptyPosition)
                                 {
                                     State[j + 1, i] = new Projectile(j + 1, i, projectile.Vector);
                                 }
                                 else
                                 {
-                                    State[j + 1, i].TryDestroy();
+                                    if (State[j + 1, i].TryDestroy())
+                                    {
+                                        State[j + 1, i] = new EmptyPosition(j + 1, i);
+                                    }
                                 }
+                            }
                                 break;
                             case Vector.Up:
+                            if (i > 0)
+                            {
                                 if (State[j, i - 1] is EmptyPosition)
                                 {
                                     State[j, i - 1] = new Projectile(j, i - 1, projectile.Vector);
                                 }
                                 else
                                 {
-                                    State[j, i - 1].TryDestroy();
+                                    if (State[j, i - 1].TryDestroy())
+                                    {
+                                        State[j, i - 1] = new EmptyPosition(j, i - 1);
+                                    }
                                 }
+                            }
                                 break;
                             case Vector.Down:
+                            if (i < Length)
+                            {
                                 if (State[j, i + 1] is EmptyPosition)
                                 {
                                     State[j, i + 1] = new Projectile(j, i + 1, projectile.Vector);
                                 }
                                 else
                                 {
-                                    State[j, i + 1].TryDestroy();
+                                    if (State[j, i + 1].TryDestroy())
+                                    {
+                                        State[j, i + 1] = new EmptyPosition(j, i + 1);
+                                    }
                                 }
-                                break;
+
+                            }
+                            break;
                             default: throw new Exception();
                         }
                     State[j, i] = new EmptyPosition(j, i);
@@ -127,7 +151,7 @@ public class BattleField
                     {
                         if (State[projectile.X, projectile.Y].TryDestroy())
                         {
-                            State[projectile.X, projectile.Y] = new EmptyPosition(projectile.X, projectile.Y, State[projectile.X, projectile.Y].Icon);
+                            State[projectile.X, projectile.Y] = new EmptyPosition(projectile.X, projectile.Y);
                         }
 
                     }
