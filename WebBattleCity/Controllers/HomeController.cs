@@ -25,24 +25,26 @@ public class HomeController : Controller
 
         switch (keyCode)
         {
-            case 37: // Left arrow
+            case 1:
+                gameObjects = _gameProcess.Process(ControlsKeysEnum.None);
+                break;
+            case 37:
                 gameObjects = _gameProcess.Process(ControlsKeysEnum.LeftArrow);
                 break;
-            case 38: // Up arrow
+            case 38:
                 gameObjects = _gameProcess.Process(ControlsKeysEnum.UpArrow);
                 break;
-            case 39: // Right arrow
+            case 39:
                 gameObjects = _gameProcess.Process(ControlsKeysEnum.RightArrow);
                 break;
-            case 40: // Down arrow
+            case 40:
                 gameObjects = _gameProcess.Process(ControlsKeysEnum.DownArrow);
                 break;
-            case 32: // Spacebar
+            case 32:
                 gameObjects = _gameProcess.Process(ControlsKeysEnum.SpaceBar);
                 break;
             default:
                 gameObjects = _gameProcess.GetCurrentState();
-               // gameObjects = _gameProcess.Process(ControlsKeysEnum.None);
                 break;
         }
 
@@ -60,10 +62,25 @@ public class HomeController : Controller
             }
         }
 
+        if (_gameProcess.IsLoser())
+        {
+            GameBoardViewModel isLoserViewModel = new GameBoardViewModel{ Matrix = new string[1, 1] };
+            isLoserViewModel.Matrix[0, 0] = "isLoser.jpg"; 
+            return View(isLoserViewModel);
+
+        }
+
+        if (_gameProcess.IsWinner())
+        {
+            GameBoardViewModel isWinnerViewModel = new GameBoardViewModel { Matrix = new string[1, 1] };
+            isWinnerViewModel.Matrix[0, 0] = "isWinner.jpg";
+            return View(isWinnerViewModel);
+        }
+
         return View(gameBoardViewModel);
     }
 
-    public IActionResult Privacy()
+    public IActionResult Rules()
     {
         return View();
     }

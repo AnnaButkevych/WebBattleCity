@@ -3,20 +3,46 @@ namespace WebBattleCity.GameLogic.GameObjects;
 
 public class GameObject
 {
-    public int X;
-    public int Y;
-    public bool IsDestroyed;
+    private int x;
+    public int X
+    {
+        get { return x; }
+        set
+        {
+            if (value >= 0 && value < 10)
+            {
+                x = value;
+            }
+        }
+    }
 
-    public GameObject(int x, int y)
+    private int y;
+    public int Y {
+        get { return y; }
+        set {
+            if (value >= 0 && value < 10)
+            {
+                y = value;
+            }
+        } }
+    public bool IsDestroyed;
+    private int Hp;
+
+    public GameObject(int x, int y, int hp)
     {
         X = x;
         Y = y;
+        Hp = hp;
     }
 
 
-    public virtual bool TryDestroy()
+    public bool TryDestroy()
     {
-        IsDestroyed = true;
+        Hp--;
+        if (Hp < 1)
+        {
+            IsDestroyed = true;
+        }
         return IsDestroyed;
     }
 

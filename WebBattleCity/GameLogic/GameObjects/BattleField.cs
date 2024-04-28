@@ -49,7 +49,7 @@ public class BattleField
                             }
                                 break;
                             case Vector.Right:
-                            if (j < Length)
+                            if (j < Length - 1)
                             {
                                 if (State[j + 1, i] is EmptyPosition)
                                 {
@@ -81,7 +81,7 @@ public class BattleField
                             }
                                 break;
                             case Vector.Down:
-                            if (i < Length)
+                            if (i < Length - 1)
                             {
                                 if (State[j, i + 1] is EmptyPosition)
                                 {
@@ -102,9 +102,9 @@ public class BattleField
                     State[j, i] = new EmptyPosition(j, i);
                 }
 
-                if (State[j, i] is MyTank)
+                if (State[j, i] is Tank)
                 {
-                    MyTank mytank = (MyTank)State[j, i];
+                    Tank mytank = (Tank)State[j, i];
                     if (State[mytank.X, mytank.Y] is EmptyPosition)
                     {
                         State[mytank.X, mytank.Y] = State[j, i];
@@ -113,9 +113,9 @@ public class BattleField
                             State[j, i] = new EmptyPosition(j, i);
                         }
                     }
-                    if (State[mytank.X, mytank.Y] is not EmptyPosition && !(State[mytank.X, mytank.Y] is MyTank))
+                    if (State[mytank.X, mytank.Y] is not EmptyPosition && !(State[mytank.X, mytank.Y] is Tank))
                     {
-                        switch ((State[j, i] as MyTank).CurrentVector)
+                        switch ((State[j, i] as Tank).CurrentVector)
                         {
                             case Vector.Left:
                                 State[j, i].X++;

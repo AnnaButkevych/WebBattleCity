@@ -7,7 +7,7 @@ public abstract class Tank : GameObject
 {
     public Vector CurrentVector = Vector.Up;
 
-    public Tank(int x, int y) : base(x, y)
+    public Tank(int x, int y, int hp) : base(x, y, hp)
     {
         IsDestroyed = false;
     }

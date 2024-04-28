@@ -3,19 +3,10 @@ namespace WebBattleCity.GameLogic.GameObjects;
 
 public class StoneWall : WallsBase
 {
+    private const int Hp = 3;
 
-    public StoneWall(int x, int y) : base(x, y, 3)
+    public StoneWall(int x, int y) : base(x, y, Hp)
     {
-    }
-
-    public override bool TryDestroy()
-    {
-        NumberOfShootsToBreak--;
-        if (NumberOfShootsToBreak < 1)
-        {
-            IsDestroyed = true;
-        }
-        return IsDestroyed;
     }
 
     public override string GetIconName()

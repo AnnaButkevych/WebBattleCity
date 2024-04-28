@@ -6,20 +6,9 @@ namespace WebBattleCity.GameLogic.GameObjects;
 
 public class MyTank : Tank
 {
-    private int NumberOfShoots;
-    public MyTank(int x, int y) : base(x, y)
+    private const int Hp = 8;
+    public MyTank(int x, int y) : base(x, y, Hp)
     {
-        NumberOfShoots = 8;
-    }
-
-    public override bool TryDestroy()
-    {
-        NumberOfShoots--;
-        if (NumberOfShoots == 0)
-        {
-            IsDestroyed = true;
-        }
-        return IsDestroyed;
     }
 
    public override string GetIconName()

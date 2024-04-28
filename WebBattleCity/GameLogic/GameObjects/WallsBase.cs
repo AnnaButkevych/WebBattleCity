@@ -3,21 +3,8 @@ namespace WebBattleCity.GameLogic.GameObjects;
 
 public class WallsBase : GameObject
 {
-    public int NumberOfShootsToBreak;
-
-    public WallsBase(int x, int y, int numberOfShootsToBreak) : base(x, y)
+    public WallsBase(int x, int y, int hp) : base(x, y, hp)
     {
-        NumberOfShootsToBreak = numberOfShootsToBreak;
         IsDestroyed = false;
-    }
-
-    public override bool TryDestroy()
-    {
-        NumberOfShootsToBreak--;
-        if (NumberOfShootsToBreak < 1)
-        {
-            IsDestroyed = true;
-        }
-        return IsDestroyed;
     }
 }

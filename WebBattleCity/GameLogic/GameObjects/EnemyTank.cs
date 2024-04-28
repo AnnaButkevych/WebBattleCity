@@ -6,15 +6,10 @@ namespace WebBattleCity.GameLogic.GameObjects;
 
 public class EnemyTank : Tank
 {
-    public EnemyTank(int x, int y) : base(x, y)
+    private const int Hp = 2;
+    public EnemyTank(int x, int y) : base(x, y, Hp)
     {
         CurrentVector = Vector.Down;
-    }
-
-    public override bool TryDestroy()
-    {
-        base.TryDestroy();
-        return IsDestroyed;
     }
 
     public void MoveEnemyTank(BattleField battleField)

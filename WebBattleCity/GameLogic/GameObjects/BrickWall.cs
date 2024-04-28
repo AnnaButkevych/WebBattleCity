@@ -3,19 +3,10 @@ namespace WebBattleCity.GameLogic.GameObjects;
 
 public class BrickWall : WallsBase
 {
+    private const int Hp = 2;
 
-    public BrickWall(int x, int y) : base(x, y, 2)
+    public BrickWall(int x, int y) : base(x, y, Hp)
     {
-    }
-
-    public override bool TryDestroy()
-    {
-        NumberOfShootsToBreak--;
-        if (NumberOfShootsToBreak < 1)
-        {
-            IsDestroyed = true;
-        }
-        return IsDestroyed;
     }
 
     public override string GetIconName()

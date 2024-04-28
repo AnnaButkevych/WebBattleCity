@@ -6,7 +6,7 @@ public class Projectile : GameObject
 {
     public Vector Vector;
 
-    public Projectile(int x, int y, Vector vector) : base(x, y)
+    public Projectile(int x, int y, Vector vector) : base(x, y, 1)
     {
         Vector = vector;
     }

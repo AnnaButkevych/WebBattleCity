@@ -3,19 +3,10 @@ namespace WebBattleCity.GameLogic.GameObjects;
 
 public class WoodsWall : WallsBase
 {
+    private const int Hp = 1;
 
-    public WoodsWall(int x, int y) : base(x, y, 1)
+    public WoodsWall(int x, int y) : base(x, y, Hp)
     {
-    }
-
-    public override bool TryDestroy()
-    {
-        NumberOfShootsToBreak--;
-        if (NumberOfShootsToBreak < 1)
-        {
-            IsDestroyed = true;
-        }
-        return IsDestroyed;
     }
 
     public override string GetIconName()

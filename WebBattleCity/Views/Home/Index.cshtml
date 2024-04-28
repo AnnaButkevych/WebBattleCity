@@ -1,40 +1,70 @@
 ﻿@model GameBoardViewModel
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Game Page";
 }
 
-<div class="grid-container">
 
-    @for (int i = 0; i < Model.Matrix.GetLength(0); i++)
+@if (Model.Matrix.GetLength(0) == 0 && Model.Matrix.GetLength(1) == 0)
+{
+    <div id="final-screen">
+        <img src="@Url.Content("~/Images/" + Model.Matrix[0,0])" alt="Picture" height="300" width="300" />
+    </div>
+}
+    else
     {
-        for (int j = 0; j < Model.Matrix.GetLength(1); j++)
-        {
-            <div>
-                <img src="@Url.Content("~/Images/" + Model.Matrix[i, j])" alt="Picture" height="75" width="75" />
-            </div>
-        }
-    }
-</div>
+        <div class="grid-container" id="grid-container">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
-</script>
-<script>$(document).ready(function () {
-        $(document).keydown(function (event) {
-            // Check if the key pressed is an arrow key or backspace
-            if (event.keyCode == 37 || event.keyCode == 38 || event.keyCode == 39 || event.keyCode == 40 || event.keyCode == 32) {
-                // Make an AJAX request to the controller method
-                $.ajax({
-                    type: 'POST',
-                    url: '/',
-                    data: { keyCode: event.keyCode }, // Send the key code to the controller
-                    success: function (response) {
-                        location.reload(true);
-                    },
-                    error: function (xhr, status, error) {
-                        // Handle error
+            @for (int i = 0; i < Model.Matrix.GetLength(0); i++)
+             {
+                for (int j = 0; j < Model.Matrix.GetLength(1); j++)
+                {
+                    <div>
+                        <img src="@Url.Content("~/Images/" + Model.Matrix[i, j])" alt="Picture" height="75" width="75" />
+                    </div>
+                }
+             }
+        </div>
+    }
+
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>$(document).ready(function () {
+                $(document).keydown(function (event) {
+                    // Check if the key pressed is an arrow key or backspace
+                    if (event.keyCode == 37 || event.keyCode == 38 || event.keyCode == 39 || event.keyCode == 40 || event.keyCode == 32) {
+                        // Make an AJAX request to the controller method
+                        $.ajax({
+                            type: 'POST',
+                            url: '/',
+                            data: { keyCode: event.keyCode }, // Send the key code to the controller
+                            success: function (response) {
+                                //$("#grid-container").remove();
+                                location.reload(true);
+                            },
+                            error: function (xhr, status, error) {
+                                console.log(error);
+                            }
+                        });
                     }
                 });
-            }
-        });
-    });</script>
+            });
+
+            $(document).ready(function () {
+                // Function to make the AJAX call
+                function makeAjaxCall() {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/',
+                        data: { keyCode: 1 },
+                        success: function (data) {
+                            location.reload(true);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+                }
+                setInterval(makeAjaxCall, 1000); // 1000 milliseconds = 1 second
+            });</script>
