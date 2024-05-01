@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting.Internal;
 using WebBattleCity.GameLogic;
 using WebBattleCity.GameLogic.GameLogicEnums;
 using WebBattleCity.GameLogic.GameObjects;
@@ -11,7 +10,8 @@ namespace WebBattleCity.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly GameProcess _gameProcess;
+    private GameProcess _gameProcess;
+    private string LevelName;
 
     public HomeController(ILogger<HomeController> logger, GameProcess gameProcess)
     {
@@ -19,8 +19,13 @@ public class HomeController : Controller
         _gameProcess = gameProcess;
     }
 
-    public IActionResult Index(int keyCode)
+    public IActionResult Index(int keyCode = 1)
     {
+        if (TempData["levelName"] != null)
+        {
+            ChangeLevel(TempData["levelName"] as string);
+        }
+
         GameObject[,] gameObjects = null;
 
         switch (keyCode)
@@ -83,6 +88,35 @@ public class HomeController : Controller
     public IActionResult Rules()
     {
         return View();
+    }
+
+    public IActionResult Menu()
+    {
+        LevelsViewModel levelsViewModel = new LevelsViewModel();
+        levelsViewModel.MenuPoints = new string[] { "NewGame", "Level1", "Level2", "Level3" };
+
+        return View(levelsViewModel);
+    }
+
+    public IActionResult ChangeLevelRedirect(string levelName)
+    {
+        TempData["levelName"] = levelName;
+        return RedirectToAction("Index");
+    }
+
+    private void ChangeLevel(string levelName)
+    {
+        BattleField battleField = null;
+        if (levelName == "NewGame")
+        {
+            battleField = new BattleField();
+        }
+        else
+        {
+            battleField = new BattleField(levelName);
+        }
+        _gameProcess.BattleField = battleField;
+
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

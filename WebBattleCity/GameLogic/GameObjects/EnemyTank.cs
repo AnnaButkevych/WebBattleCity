@@ -6,7 +6,7 @@ namespace WebBattleCity.GameLogic.GameObjects;
 
 public class EnemyTank : Tank
 {
-    private const int Hp = 2;
+    private const int Hp = 1;
     public EnemyTank(int x, int y) : base(x, y, Hp)
     {
         CurrentVector = Vector.Down;

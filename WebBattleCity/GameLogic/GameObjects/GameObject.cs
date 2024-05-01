@@ -36,13 +36,17 @@ public class GameObject
     }
 
 
-    public bool TryDestroy()
-    {
-        Hp--;
-        if (Hp < 1)
+    public bool TryDestroy(Projectile projectile)
+     {
+        if(projectile == null || projectile.Owner != this)
         {
-            IsDestroyed = true;
+            Hp--;
+            if (Hp < 1)
+            {
+                IsDestroyed = true;
+            }
         }
+        
         return IsDestroyed;
     }
 

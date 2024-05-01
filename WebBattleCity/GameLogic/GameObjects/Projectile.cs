@@ -5,9 +5,12 @@ namespace WebBattleCity.GameLogic.GameObjects;
 public class Projectile : GameObject
 {
     public Vector Vector;
+    public bool IsOut = false;
+    public Tank Owner;
 
-    public Projectile(int x, int y, Vector vector) : base(x, y, 1)
+    public Projectile(int x, int y, Vector vector, Tank owner) : base(x, y, 1)
     {
+        Owner = owner;
         Vector = vector;
     }
 

@@ -1,0 +1,14 @@
+﻿@model LevelsViewModel
+
+@{
+    ViewData["Title"] = "Game Page";
+}
+
+<ul>
+    @for (int i = 0; i < Model.MenuPoints.Count(); i++)
+    {
+        <li>
+            <a href="@Url.Action("ChangeLevelRedirect", "Home", new {levelName = Model.MenuPoints[i]})">@Model.MenuPoints[i]</a>
+        </li>
+    }
+</ul>

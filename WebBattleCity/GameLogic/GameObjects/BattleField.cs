@@ -14,6 +14,12 @@ public class BattleField
     public List<EnemyTank> enemyTanksProperty = new();
 
 
+    public BattleField(string fileName)
+    {
+        State = new GameObject[Length, Height];
+        InitialisePositions(fileName);
+    }
+
     public BattleField()
     {
         State = new GameObject[Length, Height];
@@ -37,15 +43,20 @@ public class BattleField
                             {
                                 if (State[j - 1, i] is EmptyPosition)
                                 {
-                                    State[j - 1, i] = new Projectile(j - 1, i, projectile.Vector);
+                                    State[j - 1, i] = new Projectile(j - 1, i, projectile.Vector, State[j, i] as Tank);
+                                    State[j, i] = new EmptyPosition(j, i);
                                 }
                                 else
                                 {
-                                    if (State[j - 1, i].TryDestroy())
+                                    if (State[j - 1, i].TryDestroy(State[j, i] as Projectile))
                                     {
                                         State[j - 1, i] = new EmptyPosition(j - 1, i);
                                     }
                                 }
+                            }
+                            if (j == 0)
+                            {
+                                State[j, i] = new EmptyPosition(j, i);
                             }
                                 break;
                             case Vector.Right:
@@ -53,53 +64,85 @@ public class BattleField
                             {
                                 if (State[j + 1, i] is EmptyPosition)
                                 {
-                                    State[j + 1, i] = new Projectile(j + 1, i, projectile.Vector);
+                                    State[j + 1, i] = new Projectile(j + 1, i, projectile.Vector, State[j, i] as Tank);
+                                    State[j, i] = new EmptyPosition(j, i);
                                 }
                                 else
                                 {
-                                    if (State[j + 1, i].TryDestroy())
+                                    if (State[j + 1, i].TryDestroy(State[j, i] as Projectile))
                                     {
                                         State[j + 1, i] = new EmptyPosition(j + 1, i);
                                     }
                                 }
                             }
-                                break;
+                            if (j == Length - 1)
+                            {
+                                if ((State[j, i] as Projectile).IsOut)
+                                {
+                                    State[j, i] = new EmptyPosition(j, i);
+
+                                }
+                                else
+                                {
+                                    (State[j, i] as Projectile).IsOut = true;
+
+                                }
+                            }
+                            break;
                             case Vector.Up:
                             if (i > 0)
                             {
                                 if (State[j, i - 1] is EmptyPosition)
                                 {
-                                    State[j, i - 1] = new Projectile(j, i - 1, projectile.Vector);
+                                    State[j, i - 1] = new Projectile(j, i - 1, projectile.Vector, State[j, i] as Tank);
+                                    State[j, i] = new EmptyPosition(j, i);
                                 }
                                 else
                                 {
-                                    if (State[j, i - 1].TryDestroy())
+                                    if (State[j, i - 1].TryDestroy(State[j, i] as Projectile))
                                     {
                                         State[j, i - 1] = new EmptyPosition(j, i - 1);
                                     }
                                 }
                             }
-                                break;
+                            if (i == 0)
+                            {
+                                State[j, i] = new EmptyPosition(j, i);
+                            }
+                            break;
                             case Vector.Down:
                             if (i < Length - 1)
                             {
                                 if (State[j, i + 1] is EmptyPosition)
                                 {
-                                    State[j, i + 1] = new Projectile(j, i + 1, projectile.Vector);
+                                    State[j, i + 1] = new Projectile(j, i + 1, projectile.Vector, State[j, i] as Tank);
+                                    State[j, i] = new EmptyPosition(j, i);
                                 }
                                 else
                                 {
-                                    if (State[j, i + 1].TryDestroy())
+                                    if (State[j, i + 1].TryDestroy(State[j, i] as Projectile))
                                     {
                                         State[j, i + 1] = new EmptyPosition(j, i + 1);
                                     }
                                 }
 
                             }
+                            if (i == Length - 1)
+                            {
+                                if ((State[j, i] as Projectile).IsOut)
+                                {
+                                    State[j, i] = new EmptyPosition(j, i);
+
+                                }
+                                else
+                                {
+                                    (State[j, i] as Projectile).IsOut = true;
+
+                                }
+                            }
                             break;
                             default: throw new Exception();
                         }
-                    State[j, i] = new EmptyPosition(j, i);
                 }
 
                 if (State[j, i] is Tank)
@@ -149,7 +192,7 @@ public class BattleField
                     }
                     else
                     {
-                        if (State[projectile.X, projectile.Y].TryDestroy())
+                        if (State[projectile.X, projectile.Y].TryDestroy(projectile))
                         {
                             State[projectile.X, projectile.Y] = new EmptyPosition(projectile.X, projectile.Y);
                         }
@@ -160,9 +203,9 @@ public class BattleField
         }
     }
 
-    private void InitialisePositions()
+    private void InitialisePositions(string fileName = "BattleFieldMatrix")
     {
-        string fileState = FileReader.ReadFile("GameLogic/BattleFieldMatrix.txt");
+        string fileState = FileReader.ReadFile($"GameLogic/{fileName}.txt");
         for (int i = 0; i < fileState.Length; i = i + Indentation)
         {
             int x = (i / Indentation) % 10;

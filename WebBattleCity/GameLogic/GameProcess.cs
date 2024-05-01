@@ -8,7 +8,7 @@ public class GameProcess
 
     MyTank Leopard;
     List<EnemyTank> EnemyTanks;
-    BattleField BattleField;
+    public BattleField BattleField;
 
     public GameProcess()
     {

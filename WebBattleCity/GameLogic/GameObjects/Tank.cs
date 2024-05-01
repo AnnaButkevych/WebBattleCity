@@ -19,13 +19,13 @@ public abstract class Tank : GameObject
             switch (CurrentVector)
             {
                 case Vector.Left:
-                    return new Projectile(X - 1, Y, CurrentVector);
+                    return new Projectile(X - 1, Y, CurrentVector, this);
                 case Vector.Right:
-                    return new Projectile(X + 1, Y, CurrentVector);
+                    return new Projectile(X + 1, Y, CurrentVector, this);
                 case Vector.Up:
-                    return new Projectile(X, Y - 1, CurrentVector);
+                    return new Projectile(X, Y - 1, CurrentVector, this);
                 case Vector.Down:
-                    return new Projectile(X, Y + 1, CurrentVector);
+                    return new Projectile(X, Y + 1, CurrentVector, this);
                 default: throw new Exception();
             }
         }
