@@ -52,6 +52,10 @@ public class BattleField
                                     {
                                         State[j - 1, i] = new EmptyPosition(j - 1, i);
                                     }
+                                    else
+                                    {
+                                        State[j, i] = new EmptyPosition(j, i);
+                                    }
                                 }
                             }
                             if (j == 0)
@@ -72,6 +76,10 @@ public class BattleField
                                     if (State[j + 1, i].TryDestroy(State[j, i] as Projectile))
                                     {
                                         State[j + 1, i] = new EmptyPosition(j + 1, i);
+                                    }
+                                    else
+                                    {
+                                        State[j, i] = new EmptyPosition(j, i);
                                     }
                                 }
                             }
@@ -103,6 +111,10 @@ public class BattleField
                                     {
                                         State[j, i - 1] = new EmptyPosition(j, i - 1);
                                     }
+                                    else
+                                    {
+                                        State[j, i] = new EmptyPosition(j, i);
+                                    }
                                 }
                             }
                             if (i == 0)
@@ -123,6 +135,10 @@ public class BattleField
                                     if (State[j, i + 1].TryDestroy(State[j, i] as Projectile))
                                     {
                                         State[j, i + 1] = new EmptyPosition(j, i + 1);
+                                    }
+                                    else
+                                    {
+                                        State[j, i] = new EmptyPosition(j, i);
                                     }
                                 }
 
