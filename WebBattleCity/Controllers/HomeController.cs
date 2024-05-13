@@ -98,10 +98,70 @@ public class HomeController : Controller
         return View(levelsViewModel);
     }
 
+    public IActionResult LevelEditor(string? levelName)
+    {
+        if (levelName == "NewGame" || levelName == null)
+        {
+            levelName = "BattleFieldMatrix";
+        }
+
+        string fileState = FileReader.ReadFile($"GameLogic/{levelName}.txt");
+
+        string[] lines = fileState.Split(new[] { "\r\n", "\r", "\n" },
+            StringSplitOptions.RemoveEmptyEntries);
+        
+        int rows = lines.Length;
+        int cols = lines[0].Split(',').Length-1;
+
+        int[,] numbersArray = new int[rows, cols];
+
+        for (int i = 0; i < rows; i++)
+        {
+            string[] values = lines[i].TrimEnd(',').Split(',');
+
+            for (int j = 0; j < cols; j++)
+            {
+                numbersArray[i, j] = int.Parse(values[j].Trim());
+            }
+        }
+        ViewBag.levelName = levelName;
+        
+        return View(new LevelEditorViewModel{ ItemPositions = numbersArray});
+    }
+
     public IActionResult ChangeLevelRedirect(string levelName)
     {
         TempData["levelName"] = levelName;
         return RedirectToAction("Index");
+    }
+    
+    public IActionResult Save([FromForm] IFormCollection formCollection, string levelName)
+    {
+        string filePath = $"GameLogic/{levelName}.txt";
+        IEnumerable<KeyValuePair<string, string>> keyValuePairs = formCollection.Keys
+            .Select(key => new KeyValuePair<string, string>(key, formCollection[key]));
+        
+        WriteValuesToFile(keyValuePairs, filePath);
+        return RedirectToAction("Index","Home",new { LevelName = levelName});
+    }
+    
+    static void WriteValuesToFile(IEnumerable<KeyValuePair<string, string>> keyValuePairs, string filePath)
+    {
+        using StreamWriter writer = new StreamWriter(filePath);
+        int count = 1;
+        foreach (var pair in keyValuePairs)
+        {
+            if (count == 10)
+            {
+                writer.Write(pair.Value + ",\n");
+                count = 0;
+            }
+            else
+            {
+                writer.Write(pair.Value + ", ");
+            }
+            count++;
+        }
     }
 
     private void ChangeLevel(string levelName)

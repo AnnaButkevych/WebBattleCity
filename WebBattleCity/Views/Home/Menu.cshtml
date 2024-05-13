@@ -11,4 +11,10 @@
             <a href="@Url.Action("ChangeLevelRedirect", "Home", new {levelName = Model.MenuPoints[i]})">@Model.MenuPoints[i]</a>
         </li>
     }
+    @for (int i = 0; i < Model.MenuPoints.Count(); i++)
+    {
+    <li>
+        <a href="@Url.Action("LevelEditor", "Home", new {levelName = Model.MenuPoints[i]})">@Model.MenuPoints[i] Level Editor</a>
+    </li>
+    }
 </ul>
