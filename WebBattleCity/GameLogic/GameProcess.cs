@@ -5,7 +5,7 @@ namespace WebBattleCity.GameLogic;
 
 public class GameProcess
 {
-
+    private Base _base;
     MyTank Leopard;
     List<EnemyTank> EnemyTanks;
     public BattleField BattleField;
@@ -24,6 +24,7 @@ public class GameProcess
     {
         EnemyTanks = BattleField.enemyTanksProperty;
         Leopard = BattleField.MyTankProperty;
+        _base = BattleField.MyBase;
         Projectile myTankProjectile;
 
         List<Projectile> projectiles = new List<Projectile>();
@@ -66,12 +67,15 @@ public class GameProcess
     {
         if (Leopard != null)
         {
+            if (_base != null)
+            {
+                return Leopard.IsDestroyed || _base.IsDestroyed;
+            }
+            
             return Leopard.IsDestroyed;
         }
-        else
-        {
-            return false;
-        }
+        
+        return false;
     }
 
     public bool IsWinner()

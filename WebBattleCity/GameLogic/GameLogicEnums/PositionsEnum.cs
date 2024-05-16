@@ -8,6 +8,7 @@ public enum PositionsEnum
     BrickWall = 2,
     StoneWall = 4,
     WoodsWall = 5,
-    Empty = 3
+    Empty = 3,
+    Base = 6
 }
 

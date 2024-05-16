@@ -12,7 +12,7 @@ Layout = null;
         select.options.length = 0; // Clear existing options
 
         // Define enum values
-        var enumValues = ["EnemyTank", "MyTank", "BrickWall", "Empty", "StoneWall", "WoodsWall"];
+        var enumValues = ["EnemyTank", "MyTank", "BrickWall", "Empty", "StoneWall", "WoodsWall", "Base"];
 
         // Populate options
         for (var i = 0; i < enumValues.length; i++) {
@@ -28,16 +28,18 @@ Layout = null;
 </script>
 <h3>Level Editor</h3>
 
-<form method="post" action="@Url.Action("Save", "Home", new { LevelName = (string)ViewBag.levelName})">
+<form method="post" action="@Url.Action("Save", "Home", new { LevelName = (string)ViewBag.levelName })">
+    
     @for (int i = 0; i < 10; i++)
     {
         for (int j = 0; j < 10; j++)
-    {
-    <select id="ItemPositions_@(i * 10 + j)" name="@i,@j"></select>
+        {
+            <select id="ItemPositions_@(i * 10 + j)" name="@i,@j"></select>
 
-    <script>populateSelect("ItemPositions_@(i * 10 + j)", @Model.ItemPositions[i, j]);</script>
-    }
-    <br />
+            <script>populateSelect("ItemPositions_@(i * 10 + j)", @Model.ItemPositions[i, j]);</script>
+        }
+
+        <br/>
     }
 
     <button type="submit">Save</button>

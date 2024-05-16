@@ -14,9 +14,7 @@
     <None Remove="GameLogic\GameObjects\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="GameLogic\" />
     <Folder Include="GameLogic\GameLogicEnums\" />
-    <Folder Include="GameLogic\GameObjects\" />
     <Folder Include="wwwroot\Images\" />
   </ItemGroup>
   <ItemGroup>
