@@ -8,9 +8,9 @@ public class BattleField
     public int Height = 10;
     public GameObject[,] State;
     public int Indentation = 3;
+    public Base MyBase;
     public MyTank MyTankProperty;
     public List<EnemyTank> enemyTanksProperty = new();
-
 
     public BattleField(string fileName)
     {
@@ -26,7 +26,6 @@ public class BattleField
 
     public void UpdateField(List<Projectile> projectiles)
     {
-
         for (int i = 0; i < Length; i++)
         {
             for (int j = 0; j < Height; j++)
@@ -248,6 +247,10 @@ public class BattleField
                 case PositionsEnum.MyTank:
                     State[x, y] = new MyTank(x, y);
                     MyTankProperty = (MyTank)State[x, y];
+                    break;
+                case PositionsEnum.Base:
+                    State[x, y] = new Base(x, y);
+                    MyBase = (Base)State[x, y];
                     break;
             }
 
