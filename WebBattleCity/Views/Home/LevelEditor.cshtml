@@ -6,21 +6,18 @@ Layout = null;
 }
 
 <script>
-    // Define a JavaScript function to populate the select elements with enum values
     function populateSelect(selectId, selectedItem) {
         var select = document.getElementById(selectId);
-        select.options.length = 0; // Clear existing options
+        select.options.length = 0;
 
-        // Define enum values
         var enumValues = ["EnemyTank", "MyTank", "BrickWall", "Empty", "StoneWall", "WoodsWall", "Base"];
 
-        // Populate options
         for (var i = 0; i < enumValues.length; i++) {
             var option = document.createElement("option");
             option.value = i;
             option.text = enumValues[i];
             if (i === selectedItem) {
-                option.selected = true; // Mark the selected item
+                option.selected = true;
             }
             select.appendChild(option);
         }
