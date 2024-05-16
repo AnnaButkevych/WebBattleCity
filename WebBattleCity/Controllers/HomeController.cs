@@ -10,8 +10,9 @@ namespace WebBattleCity.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private GameProcess _gameProcess;
+    private readonly GameProcess _gameProcess;
     private string LevelName;
+    private string folderPath = "GameLogic/";
 
     public HomeController(ILogger<HomeController> logger, GameProcess gameProcess)
     {
@@ -26,32 +27,16 @@ public class HomeController : Controller
             ChangeLevel(TempData["levelName"] as string);
         }
 
-        GameObject[,] gameObjects = null;
-
-        switch (keyCode)
+        GameObject[,] gameObjects = keyCode switch
         {
-            case 1:
-                gameObjects = _gameProcess.Process(ControlsKeysEnum.None);
-                break;
-            case 37:
-                gameObjects = _gameProcess.Process(ControlsKeysEnum.LeftArrow);
-                break;
-            case 38:
-                gameObjects = _gameProcess.Process(ControlsKeysEnum.UpArrow);
-                break;
-            case 39:
-                gameObjects = _gameProcess.Process(ControlsKeysEnum.RightArrow);
-                break;
-            case 40:
-                gameObjects = _gameProcess.Process(ControlsKeysEnum.DownArrow);
-                break;
-            case 32:
-                gameObjects = _gameProcess.Process(ControlsKeysEnum.SpaceBar);
-                break;
-            default:
-                gameObjects = _gameProcess.GetCurrentState();
-                break;
-        }
+            1 => _gameProcess.Process(ControlsKeysEnum.None),
+            37 => _gameProcess.Process(ControlsKeysEnum.LeftArrow),
+            38 => _gameProcess.Process(ControlsKeysEnum.UpArrow),
+            39 => _gameProcess.Process(ControlsKeysEnum.RightArrow),
+            40 => _gameProcess.Process(ControlsKeysEnum.DownArrow),
+            32 => _gameProcess.Process(ControlsKeysEnum.SpaceBar),
+            _ => _gameProcess.GetCurrentState()
+        };
 
         GameBoardViewModel gameBoardViewModel = new GameBoardViewModel();
         int rows = gameObjects.GetLength(0);
@@ -93,16 +78,35 @@ public class HomeController : Controller
     public IActionResult Menu()
     {
         LevelsViewModel levelsViewModel = new LevelsViewModel();
-        levelsViewModel.MenuPoints = new string[] { "NewGame", "Level1", "Level2", "Level3" };
+        string[] txtFiles = Directory.GetFiles(folderPath, "*.txt");
+
+        string[] fileNames = new string[txtFiles.Length];
+        for (int i = 0; i < txtFiles.Length; i++)
+        {
+            fileNames[i] = Path.GetFileNameWithoutExtension(txtFiles[i]);
+        }
+
+        levelsViewModel.MenuPoints = fileNames;
 
         return View(levelsViewModel);
     }
 
-    public IActionResult LevelEditor(string? levelName)
+    public IActionResult LevelEditor(string? levelName, bool isNewLevel = false)
     {
-        if (levelName == "NewGame" || levelName == null)
+        string fileName;
+
+        if (isNewLevel)
         {
+            fileName = levelName;
             levelName = "BattleFieldMatrix";
+        }
+        else
+        {
+            if (levelName == "NewGame" || levelName == null)
+            {
+                levelName = "BattleFieldMatrix";
+            } 
+            fileName = levelName;
         }
 
         string fileState = FileReader.ReadFile($"GameLogic/{levelName}.txt");
@@ -124,7 +128,7 @@ public class HomeController : Controller
                 numbersArray[i, j] = int.Parse(values[j].Trim());
             }
         }
-        ViewBag.levelName = levelName;
+        ViewBag.levelName = fileName;
         
         return View(new LevelEditorViewModel{ ItemPositions = numbersArray});
     }
@@ -133,6 +137,11 @@ public class HomeController : Controller
     {
         TempData["levelName"] = levelName;
         return RedirectToAction("Index");
+    }
+    
+    public IActionResult NewLevelEditor()
+    {
+        return View();
     }
     
     public IActionResult Save([FromForm] IFormCollection formCollection, string levelName)
