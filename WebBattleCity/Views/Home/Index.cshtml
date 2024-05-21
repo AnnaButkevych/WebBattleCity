@@ -80,7 +80,7 @@ else
         }
         var queryParams = getUrlParams(window.location.href);
         queryParams['keyCode'] = 1;
-        // Function to make the AJAX call
+      
         function makeAjaxCall() {
             $.ajax({
                 type: 'POST',
@@ -94,5 +94,5 @@ else
                 }
             });
         }
-        setInterval(makeAjaxCall, 2000); // 1000 milliseconds = 1 second
+        setInterval(makeAjaxCall, 1000); // 1000 milliseconds = 1 second
     });</script>
