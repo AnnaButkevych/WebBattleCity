@@ -36,7 +36,7 @@ public class GameObject
     }
 
 
-    public bool TryDestroy(Projectile projectile)
+    public bool TryDestroy(Projectile? projectile)
      {
         if(projectile == null || projectile.Owner != this)
         {

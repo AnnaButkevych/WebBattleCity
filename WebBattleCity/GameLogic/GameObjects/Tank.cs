@@ -12,7 +12,7 @@ public abstract class Tank : GameObject
         IsDestroyed = false;
     }
 
-    public Projectile Fire()
+    public Projectile? Fire()
     {
         if (!IsDestroyed)
         {
@@ -32,7 +32,7 @@ public abstract class Tank : GameObject
         return null;
     }
 
-    public Projectile FireToVector(Vector newVector)
+    public Projectile? FireToVector(Vector newVector)
     {
         CurrentVector = newVector;
         return Fire();

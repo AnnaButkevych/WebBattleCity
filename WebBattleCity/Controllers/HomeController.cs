@@ -1,8 +1,8 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebBattleCity.GameLogic;
 using WebBattleCity.GameLogic.GameLogicEnums;
 using WebBattleCity.GameLogic.GameObjects;
+using WebBattleCity.Helpers;
 using WebBattleCity.Models;
 
 namespace WebBattleCity.Controllers;
@@ -20,21 +20,27 @@ public class HomeController : Controller
         _gameProcess = gameProcess;
     }
 
-    public IActionResult Index(int keyCode = 1)
+    public IActionResult Index(int keyCode = 1, string userId = null)
     {
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            return RedirectToAction("Index","Home",new { userId = Guid.NewGuid()});
+        }
+        
+        _gameProcess.AddUser(userId);
         if (TempData["levelName"] != null)
         {
             ChangeLevel(TempData["levelName"] as string);
         }
 
-        GameObject[,] gameObjects = keyCode switch
+        GameObject?[,] gameObjects = keyCode switch
         {
-            1 => _gameProcess.Process(ControlsKeysEnum.None),
-            37 => _gameProcess.Process(ControlsKeysEnum.LeftArrow),
-            38 => _gameProcess.Process(ControlsKeysEnum.UpArrow),
-            39 => _gameProcess.Process(ControlsKeysEnum.RightArrow),
-            40 => _gameProcess.Process(ControlsKeysEnum.DownArrow),
-            32 => _gameProcess.Process(ControlsKeysEnum.SpaceBar),
+            1 => _gameProcess.Process(ControlsKeysEnum.None, userId),
+            37 => _gameProcess.Process(ControlsKeysEnum.LeftArrow, userId),
+            38 => _gameProcess.Process(ControlsKeysEnum.UpArrow, userId),
+            39 => _gameProcess.Process(ControlsKeysEnum.RightArrow, userId),
+            40 => _gameProcess.Process(ControlsKeysEnum.DownArrow, userId),
+            32 => _gameProcess.Process(ControlsKeysEnum.SpaceBar, userId),
             _ => _gameProcess.GetCurrentState()
         };
 
@@ -52,7 +58,7 @@ public class HomeController : Controller
             }
         }
 
-        if (_gameProcess.IsLoser())
+        if (_gameProcess.IsLoser(userId))
         {
             GameBoardViewModel isLoserViewModel = new GameBoardViewModel{ Matrix = new string[1, 1] };
             isLoserViewModel.Matrix[0, 0] = "isLoser.jpg"; 
@@ -109,28 +115,8 @@ public class HomeController : Controller
             fileName = levelName;
         }
 
-        string fileState = FileReader.ReadFile($"GameLogic/{levelName}.txt");
-
-        string[] lines = fileState.Split(new[] { "\r\n", "\r", "\n" },
-            StringSplitOptions.RemoveEmptyEntries);
-        
-        int rows = lines.Length;
-        int cols = lines[0].Split(',').Length-1;
-
-        int[,] numbersArray = new int[rows, cols];
-
-        for (int i = 0; i < rows; i++)
-        {
-            string[] values = lines[i].TrimEnd(',').Split(',');
-
-            for (int j = 0; j < cols; j++)
-            {
-                numbersArray[i, j] = int.Parse(values[j].Trim());
-            }
-        }
         ViewBag.levelName = fileName;
-        
-        return View(new LevelEditorViewModel{ ItemPositions = numbersArray});
+        return View(new LevelEditorViewModel{ ItemPositions = ReadWriteHelper.ReadLevelWriteValuesToFile(levelName)});
     }
 
     public IActionResult ChangeLevelRedirect(string levelName)
@@ -150,27 +136,8 @@ public class HomeController : Controller
         IEnumerable<KeyValuePair<string, string>> keyValuePairs = formCollection.Keys
             .Select(key => new KeyValuePair<string, string>(key, formCollection[key]));
         
-        WriteValuesToFile(keyValuePairs, filePath);
-        return RedirectToAction("Menu","Home");
-    }
-    
-    static void WriteValuesToFile(IEnumerable<KeyValuePair<string, string>> keyValuePairs, string filePath)
-    {
-        using StreamWriter writer = new StreamWriter(filePath);
-        int count = 1;
-        foreach (var pair in keyValuePairs)
-        {
-            if (count == 10)
-            {
-                writer.Write(pair.Value + ",\n");
-                count = 0;
-            }
-            else
-            {
-                writer.Write(pair.Value + ", ");
-            }
-            count++;
-        }
+        ReadWriteHelper.WriteValuesToFile(keyValuePairs, filePath);
+        return RedirectToAction("Index","Home",new { LevelName = levelName});
     }
 
     private void ChangeLevel(string levelName)
@@ -185,13 +152,5 @@ public class HomeController : Controller
             battleField = new BattleField(levelName);
         }
         _gameProcess.BattleField = battleField;
-
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }
-

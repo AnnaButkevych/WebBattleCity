@@ -6,10 +6,10 @@ public class BattleField
 {
     public int Length = 10;
     public int Height = 10;
-    public GameObject[,] State;
+    public GameObject?[,] State;
     public int Indentation = 3;
     public Base MyBase;
-    public MyTank MyTankProperty;
+    public List<MyTank?> MyTankProperty = new();
     public List<EnemyTank> enemyTanksProperty = new();
 
     public BattleField(string fileName)
@@ -24,7 +24,7 @@ public class BattleField
         InitialisePositions();
     }
 
-    public void UpdateField(List<Projectile> projectiles)
+    public void UpdateField(List<Projectile?> projectiles)
     {
         for (int i = 0; i < Length; i++)
         {
@@ -59,7 +59,8 @@ public class BattleField
                             {
                                 State[j, i] = new EmptyPosition(j, i);
                             }
-                                break;
+                            
+                            break;
                             case Vector.Right:
                             if (j < Length - 1)
                             {
@@ -160,7 +161,7 @@ public class BattleField
 
                 if (State[j, i] is Tank)
                 {
-                    Tank mytank = (Tank)State[j, i];
+                        Tank mytank = (Tank)State[j, i];
                     if (State[mytank.X, mytank.Y] is EmptyPosition)
                     {
                         State[mytank.X, mytank.Y] = State[j, i];
@@ -195,8 +196,13 @@ public class BattleField
 
         if (projectiles.Count > 0)
         {
-            foreach (Projectile projectile in projectiles)
+            foreach (Projectile? projectile in projectiles)
             {
+                if (projectile == null)
+                {
+                    continue;
+                }
+                
                 if (projectile.X <= Length && projectile.X >= 0 && projectile.Y <= Length && projectile.Y >= 0)
                 {
                     if (State[projectile.X, projectile.Y] is EmptyPosition)
@@ -246,7 +252,7 @@ public class BattleField
                     break;
                 case PositionsEnum.MyTank:
                     State[x, y] = new MyTank(x, y);
-                    MyTankProperty = (MyTank)State[x, y];
+                    MyTankProperty.Add((MyTank)State[x, y]);
                     break;
                 case PositionsEnum.Base:
                     State[x, y] = new Base(x, y);
