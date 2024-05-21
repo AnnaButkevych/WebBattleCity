@@ -7,8 +7,11 @@ namespace WebBattleCity.GameLogic.GameObjects;
 public class MyTank : Tank
 {
     private const int Hp = 8;
-    public MyTank(int x, int y) : base(x, y, Hp)
+    public string Id;
+    
+    public MyTank(int x, int y, string id="") : base(x, y, Hp)
     {
+        Id = id;
     }
 
    public override string GetIconName()
