@@ -137,7 +137,7 @@ public class HomeController : Controller
             .Select(key => new KeyValuePair<string, string>(key, formCollection[key]));
         
         ReadWriteHelper.WriteValuesToFile(keyValuePairs, filePath);
-        return RedirectToAction("Index","Home",new { LevelName = levelName});
+        return RedirectToAction("Menu", "Home",new { LevelName = levelName});
     }
 
     private void ChangeLevel(string levelName)

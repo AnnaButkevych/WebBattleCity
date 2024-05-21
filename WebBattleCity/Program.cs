@@ -8,7 +8,7 @@ builder.Services.AddSingleton<GameProcess>();
 var app = builder.Build();
 
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
