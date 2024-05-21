@@ -151,7 +151,7 @@ public class HomeController : Controller
             .Select(key => new KeyValuePair<string, string>(key, formCollection[key]));
         
         WriteValuesToFile(keyValuePairs, filePath);
-        return RedirectToAction("Index","Home",new { LevelName = levelName});
+        return RedirectToAction("Menu","Home");
     }
     
     static void WriteValuesToFile(IEnumerable<KeyValuePair<string, string>> keyValuePairs, string filePath)
