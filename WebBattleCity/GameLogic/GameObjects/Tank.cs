@@ -38,7 +38,6 @@ public abstract class Tank : GameObject
         return Fire();
     }
 
-    //todo:check for not going out of the battleField
     public void TurnAndMove(Vector newVector, BattleField battleField)
     {
         CurrentVector = newVector;
